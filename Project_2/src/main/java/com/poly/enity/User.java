@@ -1,26 +1,30 @@
 package com.poly.enity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Users")
 public class User {
 	@Id
-	@GeneratedValue
-	Integer id;
-	String userName;
-	String password;
-	String email;
-//	Integer RoleId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	private String userName;
+	private String password;
+	private String email;
 
-	@ManyToOne
-	@JoinColumn(name = "RoleId")
-	private Role roleId;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinTable(name = "User_Role", joinColumns = {
+			@JoinColumn(name = "UserId", referencedColumnName = "Id") }, inverseJoinColumns = {
+					@JoinColumn(name = "RoleId", referencedColumnName = "Id") })
+	private Role role;
 
 	public Integer getId() {
 		return id;
@@ -54,14 +58,13 @@ public class User {
 		this.email = email;
 	}
 
-	public Role getRoleId() {
-		return roleId;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoleId(Role roleId) {
-		this.roleId = roleId;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 
-	
 }

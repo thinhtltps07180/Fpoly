@@ -1,4 +1,4 @@
-package com.poly.enity;
+package com.poly.entity;
 
 import java.util.List;
 

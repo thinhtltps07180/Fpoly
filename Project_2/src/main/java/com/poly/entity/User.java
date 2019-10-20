@@ -1,9 +1,8 @@
-package com.poly.enity;
+package com.poly.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -14,11 +13,11 @@ import javax.persistence.Table;
 @Table(name = "Users")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	private String userName;
-	private String password;
-	private String email;
+	@GeneratedValue
+	Integer id;
+	String userName;
+	String password;
+	String email;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(name = "User_Role", joinColumns = {
@@ -65,6 +64,7 @@ public class User {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	
 	
 
 }

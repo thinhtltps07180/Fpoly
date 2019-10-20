@@ -2,7 +2,7 @@ package com.poly.dao;
 
 import java.util.List;
 
-import com.poly.enity.User;
+import com.poly.entity.User;
 
 public interface UserDAO {
 	User finById(Integer id);

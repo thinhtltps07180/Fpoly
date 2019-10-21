@@ -19,7 +19,7 @@ public class UserDAOImpl implements UserDAO {
 	SessionFactory factory;
 
 	@Override
-	public User finById(Integer id) {
+	public User finById(String id) {
 		Session session = factory.getCurrentSession();
 		return session.find(User.class, id);
 	}
@@ -30,6 +30,7 @@ public class UserDAOImpl implements UserDAO {
 		Session session = factory.getCurrentSession();
 		TypedQuery<User> query = session.createQuery(hql, User.class);
 		return query.getResultList();
+		
 	}
 
 	@Override
@@ -47,11 +48,14 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User delete(Integer id) {
+	public User delete(String id) {
 		User entity = this.finById(id);
 		Session session = factory.getCurrentSession();
 		session.remove(entity);
 		return entity;
 	}
 
+	
+
+	
 }

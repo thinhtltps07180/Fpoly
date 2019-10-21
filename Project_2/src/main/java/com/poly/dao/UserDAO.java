@@ -5,10 +5,10 @@ import java.util.List;
 import com.poly.entity.User;
 
 public interface UserDAO {
-	User finById(Integer id);
+	User finById(String id);
 	List<User>findAll();
 	User create(User entity);
 	void update(User entity);
-	User delete(Integer id);
+	User delete(String id);
 
 }

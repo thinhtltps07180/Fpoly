@@ -1,44 +1,31 @@
 package com.poly.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Users")
 public class User {
 	@Id
-	@GeneratedValue
-	Integer id;
-	String userName;
+	String id;
 	String password;
+	String photo;
 	String email;
+//	Integer roleId;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinTable(name = "User_Role", joinColumns = {
-			@JoinColumn(name = "UserId", referencedColumnName = "Id") }, inverseJoinColumns = {
-					@JoinColumn(name = "RoleId", referencedColumnName = "Id") })
-	private Role role;
+	@ManyToOne
+	@JoinColumn(name = "roleId")
+	Role roles;
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -49,6 +36,14 @@ public class User {
 		this.password = password;
 	}
 
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -57,14 +52,12 @@ public class User {
 		this.email = email;
 	}
 
-	public Role getRole() {
-		return role;
+	public Role getRoles() {
+		return roles;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRoles(Role roles) {
+		this.roles = roles;
 	}
-	
-	
 
 }

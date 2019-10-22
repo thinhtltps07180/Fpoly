@@ -18,7 +18,7 @@ public class User {
 	@NotBlank(message = "Không được để trống username")// phải là chuỗi String
 	String id;
 	@Length(min=6 , message = "Mật khẩu phải có ít nhất 6 ký tự")
-	@NotEmpty // 2 trường hợp : chuỗi or tập hợp
+//	@NotEmpty // 2 trường hợp : chuỗi or tập hợp
 	String password;
 	String photo;
 	@Email

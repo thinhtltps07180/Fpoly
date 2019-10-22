@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,11 +63,16 @@ public class UserController {
 		return "account/login";
 
 	}
+	
+	@RequestMapping("/index")
+	public String index( ) {
+		return "index";
+	}
 
 	@GetMapping("/account/register")
 	public String register(Model model) {
 		User user = new User();
-		user.setId("Trần Lê Thanh Thinh");
+//		user.setId("Trần Lê Thanh Thinh");
 		model.addAttribute("form", user);
 		return "account/register";
 	}
@@ -79,17 +85,17 @@ public class UserController {
 	@PostMapping("/account/register")
 	public String register(Model model, @Validated @ModelAttribute("form") User user, BindingResult errors,
 			@RequestParam("up_photo") MultipartFile file) {
-		if(file.isEmpty()) {
+		if (file.isEmpty()) {
 			user.setPhoto("user.png");
-		}else {
+		} else {
 			user.setPhoto(file.getOriginalFilename());
 			try {
-				String path = app.getRealPath("/static/images/users/"+user.getPhoto());
+				String path = app.getRealPath("/static/images/users/" + user.getPhoto());
 				file.transferTo(new File(path));
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 		if (errors.hasErrors()) {
 			model.addAttribute("message", "Vui lòng sửa các lỗi sau đây");
@@ -107,6 +113,48 @@ public class UserController {
 
 //		model.addAttribute("form" , user);
 		return "account/register";
+	}
+
+	@GetMapping("/account/list")
+	public String edit(Model model) {
+		List<User> list = dao.findAll();
+		model.addAttribute("list", list );
+		return "account/list";
+	}
+
+	@GetMapping("/account/edit/{id}")
+	public String edit(Model model , @PathVariable ("id" ) String id) {
+		User user = dao.finById(id);
+		model.addAttribute("form",user);
+		return "account/edit";
+	}
+	
+	@PostMapping("/account/update")
+	public String update(Model model, User user ,
+			@RequestParam("up_photo") MultipartFile file) {
+		if (file.isEmpty()) {
+			user.setPhoto("user.png");
+		} else {
+			user.setPhoto(file.getOriginalFilename());
+			try {
+				String path = app.getRealPath("/static/images/users/" + user.getPhoto());
+				file.transferTo(new File(path));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		Role role = new Role();
+		role.setId(1);
+		user.setRoles(role);
+		dao.update(user);
+		return "redirect:/account/list";
+	}
+	
+	@PostMapping("/account/delete")
+	public String delete(Model model,@RequestParam("id")String id) {
+		dao.delete(id);
+		return "redirect:/account/list";
 	}
 
 }

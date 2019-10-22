@@ -22,7 +22,7 @@ span[id*=errors] {
 		reader.onload = function() {
 			console.log(reader.result);
 			var img = new Image();
-			img.onload = function(){
+			img.onload = function() {
 				document.getElementById("anh").appendChild(img);
 			}
 			img.src = reader.result;
@@ -45,11 +45,6 @@ span[id*=errors] {
 			<label>Password</label>
 			<form:input path="password" class="form-control" />
 			<form:errors path="password" />
-		</div>
-		<div class="form-group">
-			<label>Fullname</label>
-			<form:input path="fullname" class="form-control" />
-			<form:errors path="fullname" />
 		</div>
 		<div class="form-group">
 			<label>Email</label>

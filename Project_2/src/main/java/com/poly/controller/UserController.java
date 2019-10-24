@@ -42,6 +42,7 @@ public class UserController {
 		List<User> list = dao.findAll();
 		for (User c : list) {
 			System.out.println(c.getEmail());
+			
 		}
 
 //		list.forEach(c->{
@@ -60,14 +61,11 @@ public class UserController {
 		} else {
 			model.addAttribute("message", "Login succesfully!");
 		}
-		return "account/login";
+		return "admin/dashboard";
 
 	}
 	
-	@RequestMapping("/index")
-	public String index( ) {
-		return "index";
-	}
+	
 
 	@GetMapping("/account/register")
 	public String register(Model model) {
@@ -155,6 +153,21 @@ public class UserController {
 	public String delete(Model model,@RequestParam("id")String id) {
 		dao.delete(id);
 		return "redirect:/account/list";
+	}
+	
+	@RequestMapping("/admin/dashboard")
+	public String id() {
+		return "admin/dashboard";
+	}
+	
+	@RequestMapping("/admin/about")
+	public String ab() {
+		return "admin/about";
+	}
+	
+	@RequestMapping("/index")
+	public String index( ) {
+		return "index";
 	}
 
 }

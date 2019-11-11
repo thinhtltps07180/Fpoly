@@ -1,13 +1,15 @@
 package com.poly.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -28,6 +30,22 @@ public class User {
 	@ManyToOne
 	@JoinColumn(name = "roleId")
 	Role roles;
+	
+	@OneToMany(mappedBy="user" )
+	List<New> news;
+	
+	@OneToMany(mappedBy="user" )
+	List<Order> orders;
+
+	
+
+	public List<New> getNews() {
+		return news;
+	}
+
+	public void setNews(List<New> news) {
+		this.news = news;
+	}
 
 	public String getId() {
 		return id;
@@ -67,6 +85,14 @@ public class User {
 
 	public void setRoles(Role roles) {
 		this.roles = roles;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 }

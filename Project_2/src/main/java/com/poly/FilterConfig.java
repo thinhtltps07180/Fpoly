@@ -11,12 +11,13 @@ import com.poly.interceptor.FilterInterceptor;
 public class FilterConfig implements WebMvcConfigurer {
 	@Autowired
 	FilterInterceptor filter;
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(filter)
-			.addPathPatterns("/**");
-		
+		.addPathPatterns("/home/**")
+		.excludePathPatterns("/admin/**", "/journalist/**" , "/client/**");
+
 //		registry.addInterceptor(auth)
 //			.addPathPatterns("/admin/**")
 //			.excludePathPatterns("/admin/master/login");

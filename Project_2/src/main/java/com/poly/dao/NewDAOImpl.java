@@ -35,10 +35,10 @@ public class NewDAOImpl implements NewDAO {
 	public List<New> findAllByUserId() {
 		User user = (User) session.getAttribute("user");
 
-		String hql = "FROM New WHERE user =:id ";
+		String hql = "FROM New n WHERE n.user.id =:id ";
 		Session session = factory.getCurrentSession();
 		TypedQuery<New> query = session.createQuery(hql, New.class);
-		query.setParameter("id", user);
+		query.setParameter("id", user.getId());
 		return query.getResultList();
 
 	}
@@ -67,7 +67,7 @@ public class NewDAOImpl implements NewDAO {
 
 	@Override
 	public List<New> findAll() {
-		String hql = "FROM New  WHERE status = true ORDER BY createDate ASC";
+		String hql = "FROM New  WHERE status = true ORDER BY createDate DESC";
 		Session session = factory.getCurrentSession();
 		TypedQuery<New> query = session.createQuery(hql, New.class);
 		return query.getResultList();
@@ -83,7 +83,7 @@ public class NewDAOImpl implements NewDAO {
 
 	@Override
 	public List<New> findPage(int pageNo) {
-		String hql = "FROM New  WHERE status = true ORDER BY createDate ASC";
+		String hql = "FROM New  WHERE status = true ORDER BY createDate DESC";
 		Session session = factory.getCurrentSession();
 		TypedQuery<New> query = session.createQuery(hql, New.class);
 		query.setFirstResult(pageNo * pageSize);
@@ -100,6 +100,88 @@ public class NewDAOImpl implements NewDAO {
 		long count = query.getSingleResult();
 		int pageCount = (int) Math.ceil(1.0 * count/pageSize);
 		return pageCount;
+	}
+
+	@Override
+	public List<New> findAllByCategoryIsUEFAChampionsLeague() {
+		String hql = "FROM New n  WHERE n.status = true AND n.categories.id = '1'  ORDER BY createDate DESC";
+		Session session = factory.getCurrentSession();
+		TypedQuery<New> query = session.createQuery(hql, New.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<New> findAllByCategoryIsPremierLeague() {
+		String hql = "FROM New n  WHERE n.status = true AND n.categories.id = '2'  ORDER BY createDate DESC";
+		Session session = factory.getCurrentSession();
+		TypedQuery<New> query = session.createQuery(hql, New.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<New> findAllByCategoryIsBundesLiga() {
+		String hql = "FROM New n  WHERE n.status = true AND n.categories.id = '3'  ORDER BY createDate DESC";
+		Session session = factory.getCurrentSession();
+		TypedQuery<New> query = session.createQuery(hql, New.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<New> findAllByCategoryIsSerieA() {
+		String hql = "FROM New n  WHERE n.status = true AND n.categories.id = '4'  ORDER BY createDate DESC";
+		Session session = factory.getCurrentSession();
+		TypedQuery<New> query = session.createQuery(hql, New.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<New> findAllByCategoryIsVietnamesefootball() {
+		String hql = "FROM New n  WHERE n.status = true AND n.categories.id = '5'  ORDER BY createDate DESC";
+		Session session = factory.getCurrentSession();
+		TypedQuery<New> query = session.createQuery(hql, New.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public New findByTop1News() {
+		String hql = "SELECT n FROM New n WHERE n.status = true  ORDER BY createDate DESC ";
+		Session session = factory.getCurrentSession();
+		TypedQuery<New> query = session.createQuery(hql,New.class);
+		query.setFirstResult(0);
+		query.setMaxResults(1);
+		New result = query.getSingleResult();
+		return result;
+	}
+
+	@Override
+	public List<New> findAllTop2() {
+		String hql = "FROM New  WHERE status = true ORDER BY createDate DESC";
+		Session session = factory.getCurrentSession();
+		TypedQuery<New> query = session.createQuery(hql, New.class);
+		query.setFirstResult(1);
+		query.setMaxResults(2);
+		return query.getResultList();
+	}
+
+	@Override
+	public New findByTop1NewsOrDerByCountViewer() {
+		String hql = "SELECT n FROM New n WHERE n.status = true  ORDER BY countViewer DESC ";
+		Session session = factory.getCurrentSession();
+		TypedQuery<New> query = session.createQuery(hql,New.class);
+		query.setFirstResult(0);
+		query.setMaxResults(1);
+		New result = query.getSingleResult();
+		return result;
+	}
+
+	@Override
+	public List<New> findByListNewsOrDerByCountViewer() {
+		String hql = "FROM New  WHERE status = true ORDER BY countViewer DESC";
+		Session session = factory.getCurrentSession();
+		TypedQuery<New> query = session.createQuery(hql, New.class);
+		query.setFirstResult(1);
+		query.setMaxResults(3);
+		return query.getResultList();
 	}
 
 	

@@ -26,7 +26,8 @@
 								<th>Email</th>
 								<th>Role</th>
 								<th>Edit</th>
-								
+							
+
 							</tr>
 						</thead>
 						<tfoot>
@@ -35,6 +36,7 @@
 								<th>Email</th>
 								<th>Role</th>
 								<th>Edit</th>
+							
 							</tr>
 						</tfoot>
 						<tbody>
@@ -45,10 +47,14 @@
 									<td>${c.email}</td>
 									<td>${c.roles.name}</td>
 									<td><a href="/admin/edit/${c.id}">Edit</a></td>
-									
-								</tr>
+<%-- 									<td><select>
+											<c:forEach var="r" items="${listRole}">
+												<option>${r.name}</option>
+											</c:forEach>
+									</select></td>
+									<td><a class="btn btn-primary" href="/admin/update/${c.id}">Update</a></td>
+								</tr> --%>
 							</c:forEach>
-
 						</tbody>
 					</table>
 				</div>

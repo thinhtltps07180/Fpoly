@@ -1,25 +1,21 @@
 package com.poly.controller;
 
-import java.io.File;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.poly.dao.NewDAO;
+import com.poly.dao.ReportDAO;
 import com.poly.dao.RoleDAO;
 import com.poly.dao.UserDAO;
 import com.poly.entity.New;
@@ -37,6 +33,9 @@ public class AdminController {
 
 	@Autowired
 	RoleDAO roleDAO;
+	
+	@Autowired
+	ReportDAO reportDAO;
 
 	@Autowired
 	ServletContext app;
@@ -64,48 +63,23 @@ public class AdminController {
 	}
 	
 
-	@GetMapping("/admin/edit/{id}")
+	@RequestMapping("/admin/edit/{id}")
 	public String edit(Model model, @PathVariable("id") String id) {
 		User user = dao.findById(id);
-		List<Role> list = roleDAO.findAll();
-		model.addAttribute("listRole", list);
+		model.addAttribute("listRole", roleDAO.findAll());
 		model.addAttribute("userEdit", user);
 		return "admin/edit";
 	}
-
 	
-	@PostMapping("/admin/update")
-	public String register(Model model, @Valid @ModelAttribute("userEdit") User user, BindingResult errors,
-			@RequestParam("up_photo") MultipartFile file) {
-		if (file.isEmpty()) {
-			user.setPhoto("user.png");
-		} else {
-			user.setPhoto(file.getOriginalFilename());
-			try {
-				String path = app.getRealPath("/static/images/users/" + user.getPhoto());
-				file.transferTo(new File(path));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		}
-		if (errors.hasErrors()) {
-			model.addAttribute("message", "Vui lòng sửa các lỗi sau đây");
-		} else {
-			try {
-
-				Role role = new Role();
-				role.setId(user.getRoles().getId());
-				user.setRoles(role);
-				dao.update(user);
-				model.addAttribute("message", "Update thành công!");
-			} catch (Exception e) {
-				model.addAttribute("message", "Update thất bại!");
-			}
-		}
-
-		model.addAttribute("userEdit" , user);
-		return "admin/edit";
+	@RequestMapping("/admin/update")
+	public String edit(Model model, @ModelAttribute("userEdit") User user ) {	
+		Role role = new Role();
+		role.setId(user.getRoles().getId());
+		user.setRoles(role);
+//		role.setId(2);
+//		user.setRoles(role);
+		dao.update(user);
+		return "redirect:/admin/userList";
 	}
 
 	@PostMapping("/admin/delete")
@@ -113,5 +87,31 @@ public class AdminController {
 		dao.delete(id);
 		return "redirect:/admin/userlist";
 	}
+	
+	@RequestMapping("/admin/revenueByProduct")
+	public String revenueByProduct(Model model) {
+		model.addAttribute("data" ,reportDAO.revenueByProduct() );
+		return "admin/revenueByProduct";
+	}
+	
+	@RequestMapping("/admin/revenueByCustomer")
+	public String revenueByCustomer(Model model) {
+		model.addAttribute("data" ,reportDAO.revenueByCustomer() );
+		return "admin/revenueByCustomer";
+	}
+	@RequestMapping("/admin/statisticalByCategoriesNews")
+	public String statisticalByCategoriesNews(Model model) {
+		model.addAttribute("data" ,reportDAO.statisticalByCategoriesNews() );
+		return "admin/statisticalByCategoriesNews";
+	}
+	
+	@RequestMapping("/admin/statisticalByAuthor")
+	public String statisticalByAuthor(Model model) {
+		model.addAttribute("data" ,reportDAO.statisticalByAuthor() );
+		return "admin/statisticalByAuthor";
+	}
+	
+	
+	
 
 }

@@ -1,12 +1,8 @@
 <%@ page pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="f" %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
-
-
-
+<!DOCTYPE html>
  <div id="content-wrapper">
 	
       <div class="container-fluid">
@@ -29,34 +25,30 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Title</th>
-                    <th>CreateBy</th>
-                    <th>CreateDate</th>
-                    <th>Status</th>
-                    <th>Categories</th> 
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Min Price</th>
+                    <th>Max Price</th> 
                   </tr>
                 </thead>
                 <tfoot>
                    <tr>
-                     <th>Title</th>
-                    <th>CreateBy</th>
-                    <th>CreateDate</th>
-                    <th>Status</th>
-                    <th>Categories</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Min Price</th>
+                    <th>Max Price</th> 
                   </tr>
                 </tfoot>
                 <tbody>
-                 <c:forEach var="c" items="${list}">
+                 <c:forEach var="array" items="${data}">
                   <tr>
-                 
-		 			
-                    <td>${c.title}</td>
-                    <td>${c.user.id}</td>
-                    <td>${c.createDate}</td>
-                    <td><a  href="/admin/checkNews/${c.id}" id = "href"><button style="font-size:24px ;color:red"> <i class="fa fa-check"></i></button></a></td>
-                    <td>${c.categories.name}</td>
-					
-  
+                    <td>${array[0]}</td>
+                    <td>${array[1]}</td>
+                    <td><f:formatNumber value="${array[2]}" pattern="#,###.00"/>$</td>
+                    <td>${array[3]}</td>
+                    <td>${array[4]}</td>                     	
                   </tr>
                   </c:forEach>
                   
@@ -84,7 +76,34 @@
       </footer>
 
     </div>
+    
+    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+ 
     <!-- /.content-wrapper -->
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    var mydata = [
+    ['Name', 'Total'],
+    <c:forEach var="array" items="${data}">
+    ['${array[0]}', ${array[2]}],
+    </c:forEach>
+  ];
+    
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(mydata);
+
+        var options = {
+          title: 'My Daily Activities',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
 
 
   <!-- /#wrapper -->
@@ -112,36 +131,3 @@
       </div>
     </div>
   </div>
-  
-  <script>
-  
-$( "a" ).click(function( event ) {
-  event.preventDefault();
-  Swal.fire({
-	  title: 'Are you sure?',
-	  text: "You won't be able to revert this!",
-	  icon: 'warning',
-	  showCancelButton: true,
-	  confirmButtonColor: '#3085d6',
-	  cancelButtonColor: '#d33',
-	  confirmButtonText: 'Yes, confirm it!',
-	}).then((result) => {
-	  if (result.value) {
-	    Swal.fire(
-	      'Congratulations!',
-	      'Your file has been changed.',
-	      'success'    
-	    ).then(function() {
-	    	
-	    	var href = $("#href").attr("href");
-	    	window.location.href = href 
-		})
-	   
-	  }
-	 
-	})
-	
-	return false;	
-});
-
-</script>

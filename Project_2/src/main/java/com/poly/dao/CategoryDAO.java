@@ -10,5 +10,6 @@ public interface CategoryDAO {
 	Category create(Category entity);
 	void update(Category entity);
 	Category delete(Integer id);
+	
 
 }

@@ -22,15 +22,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="c" items="${list}">
+				<c:forEach var="n" items="${list}">
 					<tr class="gradeC">
 
-						<td>${c.title}</td>
-						<td>${c.description}</td>
-						<td>${c.content}</td>
-						<td>${c.createDate}</td>
-						<td>${c.categories.name}</td>
-						<td><a href="/journalist/edit/${c.id}">Edit</a></td>
+						<td>${n.title} ${n.user.id}</td>
+						<td>${n.description}</td>
+						<td>${n.content}</td>
+						<td>${n.createDate}</td>
+						<td>${n.categories.name}</td>
+						<td><a href="/journalist/edit/${n.id}">Edit</a></td>
 					</tr>
 				</c:forEach>
 

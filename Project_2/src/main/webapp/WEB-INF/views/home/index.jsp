@@ -11,83 +11,55 @@
 			<!-- Start single-post Area -->
 			<!-- Start popular-post Area -->
 			<div class="popular-post-wrap">
-				<h4 class="title">Popular Posts</h4>
+				<h4 class="title">New Posts</h4>
 				<div class="feature-post relative">
 					<div class="feature-img relative">
 						<div class="overlay overlay-bg"></div>
-						<img class="img-fluid" src="/static/images/f1.jpg" alt="">
+						<img class="img-fluid" src="/static/images/${top1.thumbnail}" alt="">
 					</div>
 					<div class="details">
 						<ul class="tags">
-							<li><a href="#">Food Habit</a></li>
+							<li><a href="#">${top1.categories.name}</a></li>
 						</ul>
 						<a href="image-post.html">
-							<h3>A Discount Toner Cartridge Is Better Than Ever.</h3>
+							<h3>${top1.title}</h3>
 						</a>
 						<ul class="meta">
-							<li><a href="#"><span class="lnr lnr-user"></span>Mark
-									wiens</a></li>
-							<li><a href="#"><span class="lnr lnr-calendar-full"></span>03
-									April, 2018</a></li>
+							<li><a href="#"><span class="lnr lnr-user"></span>${top1.user.id}</a></li>
+							<li><a href="#"><span class="lnr lnr-calendar-full"></span>${top1.createDate}</a></li>
 							<li><a href="#"><span class="lnr lnr-bubble"></span>06
 									Comments</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="row mt-20 medium-gutters">
+					<c:forEach var="n" items="${listTop2}">
 					<div class="col-lg-6 single-popular-post">
 						<div class="feature-img-wrap relative">
 							<div class="feature-img relative">
 								<div class="overlay overlay-bg"></div>
-								<img class="img-fluid" src="/static/images/f2.jpg" alt="">
+								<img class="img-fluid" src="/static/images/${n.thumbnail}" alt="">
 							</div>
 							<ul class="tags">
-								<li><a href="#">Travel</a></li>
+								<li><a href="#">${n.categories.name}</a></li>
 							</ul>
 						</div>
 						<div class="details">
 							<a href="image-post.html">
-								<h4>A Discount Toner Cartridge Is Better Than Ever.</h4>
+								<h4>${n.title}</h4>
 							</a>
 							<ul class="meta">
-								<li><a href="#"><span class="lnr lnr-user"></span>Mark
-										wiens</a></li>
-								<li><a href="#"><span class="lnr lnr-calendar-full"></span>03
-										April, 2018</a></li>
+								<li><a href="#"><span class="lnr lnr-user"></span>${n.user.id}</a></li>
+								<li><a href="#"><span class="lnr lnr-calendar-full"></span>${n.createDate}</a></li>
 								<li><a href="#"><span class="lnr lnr-bubble"></span>06
 								</a></li>
 							</ul>
-							<p class="excert">Lorem ipsum dolor sit amet, consecteturadip
-								isicing elit, sed do eiusmod tempor incididunt ed do eius.</p>
+							<p class="excert">${n.description}</p>
 						</div>
 					</div>
-					<div class="col-lg-6 single-popular-post">
-						<div class="feature-img-wrap relative">
-							<div class="feature-img relative">
-								<div class="overlay overlay-bg"></div>
-								<img class="img-fluid" src="/static/images/f3.jpg" alt="">
-							</div>
-							<ul class="tags">
-								<li><a href="#">Travel</a></li>
-							</ul>
-						</div>
-						<div class="details">
-							<a href="image-post.html">
-								<h4>A Discount Toner Cartridge Is Better Than Ever.</h4>
-							</a>
-							<ul class="meta">
-								<li><a href="#"><span class="lnr lnr-user"></span>Mark
-										wiens</a></li>
-								<li><a href="#"><span class="lnr lnr-calendar-full"></span>03
-										April, 2018</a></li>
-								<li><a href="#"><span class="lnr lnr-bubble"></span>06
-								</a></li>
-							</ul>
-							<p class="excert">Lorem ipsum dolor sit amet, consecteturadip
-								isicing elit, sed do eiusmod tempor incididunt ed do eius.</p>
-						</div>
-					</div>
+					 </c:forEach>
 				</div>
+				
 			</div>
 			<!-- End popular-post Area -->
 			<div class="col-lg-12 ad-widget-wrap mt-30 mb-30">
@@ -105,7 +77,7 @@
 									src="/static/images/${c.thumbnail}" alt=""></a>
 							</div>
 							<ul class="tags">
-								<li><a href="#">Lifestyle</a></li>
+								<li><a href="#">${c.categories.name}</a></li>
 							</ul>
 						</div>
 						<div class="col-lg-7 post-right">

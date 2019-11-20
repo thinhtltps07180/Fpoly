@@ -102,7 +102,6 @@ public class ClientController {
 			orderDetail.setCountShow(p.getCountShow());
 			orderDetail.setOrder(order);
 			orderDetail.setProduct(p);
-			orderDetail.setProduct(p);
 			orderDetails.add(orderDetail);
 		}
 

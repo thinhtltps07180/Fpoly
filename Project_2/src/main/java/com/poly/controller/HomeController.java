@@ -58,16 +58,86 @@ public class HomeController {
 		model.addAttribute("listPage", list);
 		return "home/index";
 	}
+	
+	@GetMapping("/home/about")
+	public String about(Model model) {
 
+		
+		return "home/about";
+	}
+	
+	@GetMapping("/home/top1")
+	public String top1(Model model) {
+		
+		
+		return "home/top1";
+	}
+
+	@GetMapping("/home/contact")
+	public String contact(Model model) {
+
+		
+		return "home/contact";
+	}
 //
 	@GetMapping("/home/index")
 	public String callIndex(Model model) {
+		New top1 = newDAO.findByTop1News();
+		List<New> listTop2 = newDAO.findAllTop2();
+		List<New> listTopNewsByCountViewer = newDAO.findByListNewsOrDerByCountViewer();
+		New top1Viewer = newDAO.findByTop1NewsOrDerByCountViewer();
 		int pageNo = 0;
 		List<New> list = newDAO.findPage(pageNo);
 		model.addAttribute("listPage", list );
+		model.addAttribute("listTop2", listTop2 );
+		model.addAttribute("top1" , top1);
+		model.addAttribute("top1Viewer" , top1Viewer);
+		model.addAttribute("listCountV" , listTopNewsByCountViewer);
+		
 		
 		return "home/index";
 	}
+	
+	@GetMapping("/home/CategoryIsUEFAChampionsLeague")
+	public String findAllByCategoryIsUEFAChampionsLeague(Model model) {
+		List<New> list = newDAO.findAllByCategoryIsUEFAChampionsLeague();
+		model.addAttribute("listUEFA", list );
+		
+		return "home/CategoryIsUEFAChampionsLeague";
+	}
+	
+	@GetMapping("/home/CategoryIsPremierLeague")
+	public String findAllByCategoryIsPremierLeague(Model model) {
+		List<New> list = newDAO.findAllByCategoryIsPremierLeague();
+		model.addAttribute("listPRE", list );
+		
+		return "home/CategoryIsPremierLeague";
+	}	
+	
+	@GetMapping("/home/CategoryIsBundesLiga")
+	public String findAllByCategoryIsBundesLiga(Model model) {
+		List<New> list = newDAO.findAllByCategoryIsBundesLiga();
+		model.addAttribute("listBDL", list );
+		
+		return "home/CategoryIsBundesLiga";
+	}
+	
+	@GetMapping("/home/CategoryIsSerieA")
+	public String findAllByCategoryIsSerieA(Model model) {
+		List<New> list = newDAO.findAllByCategoryIsSerieA();
+		model.addAttribute("listSRA", list );
+		
+		return "home/CategoryIsSerieA";
+	}
+	
+	@GetMapping("/home/CategoryIsVietnamesefootball")
+	public String findAllByCategoryIsVietnamesefootball(Model model) {
+		List<New> list = newDAO.findAllByCategoryIsVietnamesefootball();
+		model.addAttribute("listVNF", list );
+		
+		return "home/CategoryIsVietnamesefootball";
+	}
+	
 
 	@GetMapping("/home/login")
 	public String login() {

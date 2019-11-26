@@ -23,6 +23,10 @@
 
 
 <style>
+.card-inner {
+	margin-left: 4rem;
+}
+
 .comment {
 	min-height: 200px;
 	border: 1px dotted red;
@@ -43,7 +47,7 @@ li.ng-binding {
 			<div class="single-post-wrap">
 				<div class="content-wrap">
 					<ul class="tags">
-						<li><a href="#">Food Habit</a></li>
+						<li><a href="#">${news.categories.name}</a></li>
 					</ul>
 					<a href="#">
 						<h3>${news.title}</h3>
@@ -71,14 +75,72 @@ li.ng-binding {
 						<div class="comment">
 							<ul>
 								<li ng-repeat="(key , value) in messages">
-								{{value.text}} posted by {{value.author}} on {{value.posted|date}}
-								<a ng-click="reply(key)" href="">reply</a>
-								<ul>
-									<li ng-repeat="(key , value) in value.replies">{{value.text}}</li>
-								</ul>
+
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+												<div class="col-md-2">
+													<img src="https://image.ibb.co/jw55Ex/def_face.jpg"
+														class="img img-rounded img-fluid" />
+													<p class="text-secondary text-center">{{value.posted|date}}</p>
+												</div>
+												<div class="col-md-10">
+													<p>
+														<a class="float-left"
+															href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{value.author}}</strong></a>
+														<span class="float-right"><i
+															class="text-warning fa fa-star"></i></span> <span
+															class="float-right"><i
+															class="text-warning fa fa-star"></i></span> <span
+															class="float-right"><i
+															class="text-warning fa fa-star"></i></span> <span
+															class="float-right"><i
+															class="text-warning fa fa-star"></i></span>
+
+													</p>
+													<div class="clearfix"></div>
+													<p class="float-left">{{value.text}}.</p>
+													<p>
+														<a ng-click="reply(key)" href=""
+															class="float-right btn btn-outline-primary ml-2"> <i
+															class="fa fa-reply"></i> Reply
+														</a>
+													</p>
+												</div>
+											</div>
+
+										</div>
+
+										<ul>
+											<li ng-repeat="(key , value) in value.replies">
+												<div class="card card-inner">
+													<div class="card-body">
+														<div class="row">
+															<div class="col-md-2">
+																<img src="https://image.ibb.co/jw55Ex/def_face.jpg"
+																	class="img img-rounded img-fluid" />
+																<p class="text-secondary text-center">{{value.replied|date}}</p>
+															</div>
+															<div class="col-md-10">
+																<p>
+																	<a class="float-left"
+																		href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{value.authorrep}}</strong></a>
+																</p>
+																<div class="clearfix"></div>
+													<p class="float-left">{{value.text}}.</p>
+															
+															</div>
+														</div>
+													</div>
+												</div>
+
+											</li>
+										</ul>
 								</li>
-								
-								
+
+
+
+
 							</ul>
 						</div>
 						<input ng-model="message" class="form-control"
@@ -87,39 +149,52 @@ li.ng-binding {
 					</div>
 				</div>
 			</div>
+			<!--  -->
+
+
+
+
+
+
+
+
+
 			<!-- End single-post Area -->
 		</div>
-		
+
 		<script>
-	app = angular.module("app", []);
-	app.controller("ctrl", function($scope) {
-		$db = firebase.database();
-		$scope.reply = function(key){
-				var text = prompt("Nhap reply");
-				var path = 'comments/${news.id}/'+ key + '/replies/' + Date.now() ;
-				$db.ref(path).update({
-					text:text,
-					replied:Date.now()
+			app = angular.module("app", []);
+			app.controller("ctrl", function($scope) {
+				$db = firebase.database();
+				$scope.reply = function(key) {
+					var text = prompt("Nhap reply");
+					var path = 'comments/${news.id}/' + key + '/replies/'
+							+ Date.now();
+					$db.ref(path).update({
+						text : text,
+						replied : Date.now(),
+						authorrep : '${user.id}'
 					});
-			}
-		var path = "comments/${news.id}/" + Date.now();
-		$scope.send = function() {
-			$db.ref(path).update({
-				text : $scope.message,
-				posted : Date.now(),
-				author : 'test'
-			}, function(error) {
-				if (error) {
-					alert("Error")
 				}
-			})
+				var path = "comments/${news.id}/" + Date.now();
+				$scope.send = function() {
 
-		}
+					$db.ref(path).update({
+						text : $scope.message,
+						posted : Date.now(),
+						author : '${user.id}'
+					}, function(error) {
+						if (error) {
+							alert("Error")
+						}
+					})
 
-		var path2 = 'comments/${news.id}/';
-		$db.ref(path2).on('value' , function(response){
-			$scope.messages = response.val();
-			$scope.$digest();
+				}
+
+				var path2 = 'comments/${news.id}/';
+				$db.ref(path2).on('value', function(response) {
+					$scope.messages = response.val();
+					$scope.$digest();
+				})
 			})
-	})
-</script>
+		</script>

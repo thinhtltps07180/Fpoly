@@ -58,7 +58,7 @@ input[type=submit]:hover {
 		var reader = new FileReader();
 		reader.onload = function() {
 			console.log(reader.result);
-			var img = new Image();
+			var img = new Image(300,200);
 			img.onload = function() {
 				document.getElementById("anh").appendChild(img);
 			}
@@ -106,6 +106,7 @@ input[type=submit]:hover {
 			</div>
 			<div class="form-group area">
 				<form:textarea path="content" style= " height: 200px;" />
+				<form:errors path="content" />
 			</div>
 			<div class="form-group">
 				<input type="submit" name="submit" id="submit" class="form-submit"

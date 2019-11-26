@@ -13,9 +13,9 @@ a.dropdown-item {
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span>
+        <a class="nav-link" href="/home/index">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
         </a>
       </li>
       <li class="nav-item dropdown">
@@ -55,8 +55,9 @@ a.dropdown-item {
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
           <h6 class="dropdown-header">management:</h6>
-          <a class="dropdown-item" href="/admin/userList">Table user</a>
+          <a class="dropdown-item" href="/admin/userList">Table users</a>
           <a class="dropdown-item" href="/admin/newList">Table News</a>
+          <a class="dropdown-item" href="/admin/orderList">Table Orders</a>
           <div class="dropdown-divider"></div>
         </div>
       </li>

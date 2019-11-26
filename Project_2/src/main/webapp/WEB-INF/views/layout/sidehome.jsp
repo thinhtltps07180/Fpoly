@@ -23,7 +23,7 @@ h6.title {
 								<div class="feature-img-wrap relative">
 									<div class="feature-img relative">
 										<div class="overlay overlay-bg"></div>
-										<img class="img-fluid" src="/static/images/${top1Viewer.thumbnail}" alt="">
+										<img class="img-fluid" src="/static/images/news/${top1Viewer.thumbnail}" alt="">
 									</div>
 									<ul class="tags">
 										<li><a href="#">${top1Viewer.categories.name}</a></li>
@@ -44,7 +44,7 @@ h6.title {
 								<c:forEach var="n" items="${listCountV}">
 									<div class="single-post d-flex flex-row">
 										<div class="thumb">
-											<img id="post-lists" src="/static/images/${n.thumbnail}" alt="">
+											<img id="post-lists" src="/static/images/news/${n.thumbnail}" alt="">
 										</div>
 										<div class="detail">
 											<a href="image-post.html"><h6>${n.title}</h6></a>
@@ -61,7 +61,7 @@ h6.title {
 							</div>
 						</div>
 						<div class="single-sidebar-widget ads-widget">
-							<img class="img-fluid" src="/static/images/a2.jpg" alt="">
+							<img class="img-fluid" src="/static/images/news/a2.jpg" alt="">
 						</div>
 						<div class="single-sidebar-widget newsletter-widget">
 							<h6 class="title">Newsletter</h6>

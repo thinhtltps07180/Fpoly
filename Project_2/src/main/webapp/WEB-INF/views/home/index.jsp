@@ -15,7 +15,7 @@
 				<div class="feature-post relative">
 					<div class="feature-img relative">
 						<div class="overlay overlay-bg"></div>
-						<img class="img-fluid" src="/static/images/${top1.thumbnail}" alt="">
+						<img class="img-fluid" src="/static/images/news/${top1.thumbnail}" alt="">
 					</div>
 					<div class="details">
 						<ul class="tags">
@@ -38,7 +38,7 @@
 						<div class="feature-img-wrap relative">
 							<div class="feature-img relative">
 								<div class="overlay overlay-bg"></div>
-								<img class="img-fluid" src="/static/images/${n.thumbnail}" alt="">
+								<img class="img-fluid" src="/static/images/news/${n.thumbnail}" alt="">
 							</div>
 							<ul class="tags">
 								<li><a href="#">${n.categories.name}</a></li>
@@ -63,7 +63,7 @@
 			</div>
 			<!-- End popular-post Area -->
 			<div class="col-lg-12 ad-widget-wrap mt-30 mb-30">
-				<img class="img-fluid" src="/static/images/a1-ad.jpg" alt="">
+				<img class="img-fluid" src="/static/images/news/news/a1-ad.jpg" alt="">
 			</div>
 			<div class="latest-post-wrap">
 
@@ -74,7 +74,7 @@
 							<div class="feature-img relative">
 								<div class="overlay overlay-bg"></div>
 								<a href="/home/click/${c.id}"><img class="img-fluid"
-									src="/static/images/${c.thumbnail}" alt=""></a>
+									src="/static/images/news/${c.thumbnail}" alt=""></a>
 							</div>
 							<ul class="tags">
 								<li><a href="#">${c.categories.name}</a></li>
@@ -104,7 +104,7 @@
 			</ul>
 
 			<div class="col-lg-12 ad-widget-wrap mt-30 mb-30">
-				<img class="img-fluid" src="/static/images/banner-ad.jpg" alt="">
+				<img class="img-fluid" src="/static/images/news/banner-ad.jpg" alt="">
 			</div>
 			<!-- End single-post Area -->
 		</div>

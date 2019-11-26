@@ -19,6 +19,8 @@ public class OrderDetail {
 	Double unitPrice;
 	Integer quantity;
 	Integer countShow;
+	String image;
+	Boolean status;
 	
 	@ManyToOne
 	@JoinColumn(name="orderId")
@@ -27,6 +29,26 @@ public class OrderDetail {
 	@ManyToOne
 	@JoinColumn(name="productId")
 	Product product;
+	
+	
+	
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+
 
 	public Integer getId() {
 		return id;

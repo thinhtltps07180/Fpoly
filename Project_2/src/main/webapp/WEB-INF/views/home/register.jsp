@@ -6,10 +6,19 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
+label#lb {
+    font-size: 18px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: black;
+}
+
+
+
+
 input[type=text], input[type=password] {
 	width: 100%;
 	padding: 15px;
-	margin: 5px 0 22px 0;
 	display: inline-block;
 	border: none;
 }
@@ -84,7 +93,7 @@ span[id*=errors] {
 		var reader = new FileReader();
 		reader.onload = function() {
 			console.log(reader.result);
-			var img = new Image();
+			var img = new Image(150 , 150);
 			img.onload = function() {
 				document.getElementById("anh").appendChild(img);
 			}
@@ -98,26 +107,26 @@ span[id*=errors] {
 	<div class="row">
 		<div class="col-lg-8 post-list">
 			<!-- Start single-post Area -->
+			<!-- Start popular-post Area -->
 			<form:form enctype="multipart/form-data" action="/home/register"
 				modelAttribute="form">
 				<div class="container id">
-					<h1>Sign Up</h1>
-					<p>${message}</p>
+					<h1>Register</h1>
 					<hr>
 					<div class="form-group">
-						<label for="fname">UserName</label>
+						<label id="lb" for="fname">User Name</label>
 						<form:input path="id" type="text" id="fname" name="id"
-							placeholder="Your id.." />
+							placeholder="Your user name.." />
 						<form:errors path="id" />
 					</div>
 					<div class="form-group">
-						<label for="fname">Password</label>
+						<label id="lb" for="fname">Password</label>
 						<form:input path="password" type="password" id="fname"
 							name="password" placeholder="password.." />
 						<form:errors path="password" />
 					</div>
 					<div class="form-group">
-						<label for="fname">Email</label>
+						<label id="lb" for="fname">Email</label>
 						<form:input path="email" type="text" id="fname" name="email"
 							placeholder="Email.." />
 						<form:errors path="email" />
@@ -150,8 +159,10 @@ span[id*=errors] {
 					</div>
 				</div>
 
-
-
 			</form:form>
 			<!-- End single-post Area -->
 		</div>
+
+
+		
+		

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +44,12 @@ public class JournalistController {
 
 	@Autowired
 	HttpSession session;
+	
+	
+	@RequestMapping("/journalist/home")
+	public String home() {
+		return "journalist/home";
+	}
 
 	@RequestMapping("/journalist/management")
 	public String management(Model model) {
@@ -50,10 +58,7 @@ public class JournalistController {
 		return "journalist/management";
 	}
 
-	@RequestMapping("/journalist/home")
-	public String id() {
-		return "journalist/home";
-	}
+
 
 	@GetMapping("/journalist/addNewPost")
 	public String register(Model model) {
@@ -65,38 +70,45 @@ public class JournalistController {
 	}
 
 	@PostMapping("/journalist/addNewPost")
-	public String register(Model model, @ModelAttribute("add") New news, @RequestParam("up_photo") MultipartFile file) {
+	public String register(Model model,@Validated @ModelAttribute("add") New news,  BindingResult errors ,
+			@RequestParam("up_photo") MultipartFile file) {
 		if (file.isEmpty()) {
 			news.setThumbnail("news.png");
 		} else {
 			news.setThumbnail(file.getOriginalFilename());
 			try {
-				String path = app.getRealPath("/static/images/users/" + news.getThumbnail());
+				String path = app.getRealPath("/static/images/news/" + news.getThumbnail());
 				file.transferTo(new File(path));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		try {
-//					Role role = new Role();
-//					role.setId(1);
-//					user.setRoles(role);
-			User user = (User) session.getAttribute("user");
-			news.setUser(user);
-			Category category = new Category();
-			category.setId(news.getCategories().getId());
-			news.setCategories(category);
-			news.setStatus(false);
-			Date date = new Date();
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-			formatter.format(date);
-			news.setCreateDate(date);
-			news.setCountViewer(0);
-			dao.create(news);
-			model.addAttribute("message", "Đăng ký thành công!");
-		} catch (Exception e) {
-			model.addAttribute("message", "Đăng ký thất bại!");
+		if (errors.hasErrors()) {
+			model.addAttribute("message", "Vui lòng sửa các lỗi sau đây");
+			List<Category> list = categoryDAO.findAll();
+			model.addAttribute("list", list);
+
+			return "journalist/addNewPost";	
+		}else {
+			try {
+				User user = (User) session.getAttribute("user");
+				news.setUser(user);
+				Category category = new Category();
+				category.setId(news.getCategories().getId());
+				news.setCategories(category);
+				news.setStatus(false);
+				Date date = new Date();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+				formatter.format(date);
+				news.setCreateDate(date);
+				news.setCountViewer(0);
+				dao.create(news);
+				model.addAttribute("message", "Đăng ký thành công!");
+			} catch (Exception e) {
+				model.addAttribute("message", "Đăng ký thất bại!");
+			}
 		}
+		
 
 		// model.addAttribute("form" , user);
 
@@ -115,11 +127,11 @@ public class JournalistController {
 	@PostMapping("/journalist/update")
 	public String update(Model model, @ModelAttribute("form") New news, @RequestParam("up_photo") MultipartFile file) {
 		if (file.isEmpty()) {
-			news.setThumbnail("news.png");
+			news.setThumbnail(news.getThumbnail());
 		} else {
 			news.setThumbnail(file.getOriginalFilename());
 			try {
-				String path = app.getRealPath("/static/images/users/" + news.getThumbnail());
+				String path = app.getRealPath("/static/images/news/" + news.getThumbnail());
 				file.transferTo(new File(path));
 			} catch (Exception e) {
 				e.printStackTrace();

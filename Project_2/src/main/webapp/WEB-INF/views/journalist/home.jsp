@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<!-- NAVIGATION MENU -->
+<style>
+img#us {
+    width: 206px;
+    height: 100px;
+}
+
+</style>
 
 	
 
@@ -16,10 +21,10 @@
 					<dtitle>User Profile</dtitle>
 					<hr>
 					<div class="thumbnail">
-						<img src="/static/journalist/images/face80x80.jpg" alt="Marcel Newman" class="img-circle">
+						<img id="us" src="/static/images/users/${user.photo}" alt="Marcel Newman" class="img-circle">
 					</div><!-- /thumbnail -->
-					<h1>Marcel Newman</h1>
-					<h3>Madrid, Spain</h3>
+					<h1>${user.id}</h1>
+					<h3>${user.email}</h3>
 					<br>
 					<div class="info-user">
 						<span aria-hidden="true" class="li_user fs1"></span>

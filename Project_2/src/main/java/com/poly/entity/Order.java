@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +24,6 @@ public class Order {
 	@Temporal(TemporalType.DATE)
 	Date orderDate;
 	Double amount;
-	String description;
 	
 	@ManyToOne
 	@JoinColumn(name="orderBy")
@@ -60,13 +58,7 @@ public class Order {
 		this.amount = amount;
 	}
 
-	public String getDescription() {
-		return description;
-	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
 
 
 	public List<OrderDetail> getOrderDetails() {

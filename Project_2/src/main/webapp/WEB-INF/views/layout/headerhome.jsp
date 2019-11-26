@@ -2,6 +2,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
+
+<<style>
+<!--
+img#banner {
+    width: 728px;
+    height: 90px;
+}
+-->
+</style>
 <header>
 
 	<div class="header-top">
@@ -13,7 +22,7 @@
 						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
 						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
 						<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-						<li><a href="#"><i>Register</i></a></li>
+						<li><a href="/home/register"><i>Register</i></a></li>
 						<li><a href="/home/login">
 						<%if(session.getAttribute("user") == null) { 
 						out.print("Login"); 
@@ -55,8 +64,23 @@
 				</div>
 				<div
 					class="col-lg-8 col-md-8 col-sm-12 logo-right no-padding ads-banner">
-					<img class="img-fluid" src="/static/images/${listPut.product.image}" alt="">
-					<p>Banner Order By : ${listPut.order.user.id	}</p>
+					<c:set var = "img"  value = "${listPut.image}"/>
+					 <c:choose>
+         
+			         <c:when test = "${img != null}">
+			           <c:set var = "img"  value = "${listPut.image}"/>
+			         </c:when>
+			         
+			         <c:when test = "${img == null}">
+			            <c:set var = "img"  value = "a1.jpg"/>
+			         </c:when>
+			         
+			         <c:otherwise>
+			            No comment sir...
+			         </c:otherwise>
+			      </c:choose>
+					<img class="img-fluid" id="banner" src="/static/images/banner/<c:out value = "${img}"/>" >
+				
 				</div>
 				
 			</div>
@@ -74,7 +98,7 @@
 							<li><a href="/home/CategoryIsPremierLeague">Premier League</a></li>
 							<li><a href="/home/CategoryIsBundesLiga">BundesLiga</a></li>
 							<li><a href="/home/CategoryIsSerieA">Serie A</a></li>
-							<li><a href="image-post.html">La Liga</a></li>
+							<li><a href="/home/CategoryIsLaliga">La Liga</a></li>
 							<li><a href="CategoryIsVietnamesefootball">Vietnamese football</a></li>
 						</ul></li>
 					<li><a href="/home/about">About</a></li>

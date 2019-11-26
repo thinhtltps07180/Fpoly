@@ -82,7 +82,8 @@ ${message }
 					</div>
 					<div class="form-group">
 						<label>Role</label> <select name="roles.id">
-							<c:forEach var="c" items="${listRole}">
+						<option value="">--Please choose an option--</option>
+							<c:forEach var="c" items="${listRole}">		
 								<option value="${c.id}">${c.name}</option>
 							</c:forEach>
 						</select>

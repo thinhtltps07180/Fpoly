@@ -3,10 +3,11 @@ package com.poly.entity;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -16,24 +17,17 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Integer id;
-	String name;
 	Double unitPrice;
 	Integer quantity;
-	String image;
 	Integer countShow;
+	String image;
 	
+	@ManyToOne
+	@JoinColumn(name = "locationId")
+	Location location;
+
 	@OneToMany(mappedBy="product" )
 	List<OrderDetail> orderDetails;
-	
-	public Integer getCountShow() {
-		return countShow;
-	}
-
-	public void setCountShow(Integer countShow) {
-		this.countShow = countShow;
-	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -41,14 +35,6 @@ public class Product {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Double getUnitPrice() {
@@ -59,6 +45,22 @@ public class Product {
 		this.unitPrice = unitPrice;
 	}
 
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	public Integer getCountShow() {
+		return countShow;
+	}
+
+	public void setCountShow(Integer countShow) {
+		this.countShow = countShow;
+	}
+
 	public String getImage() {
 		return image;
 	}
@@ -67,7 +69,13 @@ public class Product {
 		this.image = image;
 	}
 
+	public Location getLocation() {
+		return location;
+	}
 
+	public void setLocation(Location location) {
+		this.location = location;
+	}
 
 	public List<OrderDetail> getOrderDetails() {
 		return orderDetails;
@@ -77,14 +85,12 @@ public class Product {
 		this.orderDetails = orderDetails;
 	}
 
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
+	
+	
+	
+	
+	
+	
 
 	
 }

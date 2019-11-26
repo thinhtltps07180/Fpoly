@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<!DOCTYPE>
+<style>
+div#buttons {
+    padding-top: 10px;
+    padding-bottom: 22px;
+}
+</style>
 <h1>Shopping Cart</h1>
 <form action="/client/update" method="post">
 	<table class="table">
@@ -20,7 +25,7 @@
 				items="${sessionScope['scopedTarget.clientService'].items}">
 				<tr>
 					<td>${p.id}</td>
-					<td>${p.name}</td>
+					<td>${p.location.name}</td>
 					<td>${p.unitPrice}</td>
 					<td><input name="${p.id}" value="${p.quantity}" type="number"
 						min="1"></td>
@@ -30,7 +35,11 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<a class="btn btn-primary" href="/client/clear">Clear</a>
+	
+	<div id="buttons">
+		<a class="btn btn-primary" href="/client/clear">Clear</a>
 	<button class="btn btn-primary">Update</button>
 	<a class="btn btn-primary" href="/client/accept">Accept</a>
+	</div>
+
 </form>

@@ -23,7 +23,7 @@ public class NewDAOImpl implements NewDAO {
 	@Autowired
 	HttpSession session;
 	
-	int pageSize = 3;
+	int pageSize = 5;
 
 	@Override
 	public New findById(Integer id) {
@@ -67,7 +67,7 @@ public class NewDAOImpl implements NewDAO {
 
 	@Override
 	public List<New> findAll() {
-		String hql = "FROM New  WHERE status = true ORDER BY createDate DESC";
+		String hql = "FROM New n  WHERE n.status = true ORDER BY n.id DESC";
 		Session session = factory.getCurrentSession();
 		TypedQuery<New> query = session.createQuery(hql, New.class);
 		return query.getResultList();
@@ -83,7 +83,7 @@ public class NewDAOImpl implements NewDAO {
 
 	@Override
 	public List<New> findPage(int pageNo) {
-		String hql = "FROM New  WHERE status = true ORDER BY createDate DESC";
+		String hql = "FROM New n  WHERE n.status = true ORDER BY n.id DESC";
 		Session session = factory.getCurrentSession();
 		TypedQuery<New> query = session.createQuery(hql, New.class);
 		query.setFirstResult(pageNo * pageSize);
@@ -144,7 +144,7 @@ public class NewDAOImpl implements NewDAO {
 
 	@Override
 	public New findByTop1News() {
-		String hql = "SELECT n FROM New n WHERE n.status = true  ORDER BY createDate DESC ";
+		String hql = "SELECT n FROM New n WHERE n.status = true  ORDER BY n.id DESC ";
 		Session session = factory.getCurrentSession();
 		TypedQuery<New> query = session.createQuery(hql,New.class);
 		query.setFirstResult(0);
@@ -155,7 +155,7 @@ public class NewDAOImpl implements NewDAO {
 
 	@Override
 	public List<New> findAllTop2() {
-		String hql = "FROM New  WHERE status = true ORDER BY createDate DESC";
+		String hql = "FROM New n  WHERE n.status = true ORDER BY n.id DESC";
 		Session session = factory.getCurrentSession();
 		TypedQuery<New> query = session.createQuery(hql, New.class);
 		query.setFirstResult(1);
@@ -181,6 +181,14 @@ public class NewDAOImpl implements NewDAO {
 		TypedQuery<New> query = session.createQuery(hql, New.class);
 		query.setFirstResult(1);
 		query.setMaxResults(3);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<New> findAllByCategoryIsLaliga() {
+		String hql = "FROM New n  WHERE n.status = true AND n.categories.id = '6'  ORDER BY createDate DESC";
+		Session session = factory.getCurrentSession();
+		TypedQuery<New> query = session.createQuery(hql, New.class);
 		return query.getResultList();
 	}
 

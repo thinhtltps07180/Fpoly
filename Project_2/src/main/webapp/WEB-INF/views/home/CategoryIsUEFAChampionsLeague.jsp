@@ -12,29 +12,29 @@
 			<div class="latest-post-wrap">
 
 				<h4 class="cat-title">Latest News</h4>
-				<c:forEach var="c" items="${listUEFA}">
+				<c:forEach var="n" items="${listUEFA}">
 					<div class="single-latest-post row align-items-center">
 						<div class="col-lg-5 post-left">
 							<div class="feature-img relative">
 								<div class="overlay overlay-bg"></div>
-								<a href="/home/click/${c.id}"><img class="img-fluid"
-									src="/static/images/${c.thumbnail}" alt=""></a>
+								<a href="/home/click/${n.id}"><img class="img-fluid"
+									src="/static/images/news/${n.thumbnail}" alt=""></a>
 							</div>
 							<ul class="tags">
-								<li><a href="#">Lifestyle</a></li>
+								<li><a href="#">${n.categories.name }</a></li>
 							</ul>
 						</div>
 						<div class="col-lg-7 post-right">
 							<a href="image-post.html">
-								<h4>${c.title }</h4>
+								<h4>${n.title}</h4>
 							</a>
 							<ul class="meta">
-								<li><a href="#"><span class="lnr lnr-user"></span>${c.user.id}</a></li>
-								<li><a href="#"><span class="lnr lnr-calendar-full"></span>${c.createDate}</a></li>
+								<li><a href="#"><span class="lnr lnr-user"></span>${n.user.id}</a></li>
+								<li><a href="#"><span class="lnr lnr-calendar-full"></span>${n.createDate}</a></li>
 								<li><a href="#"><span class="lnr lnr-bubble"></span>06
 										Comments</a></li>
 							</ul>
-							<p class="excert">${c.description}</p>
+							<p class="excert">${n.description}</p>
 						</div>
 					</div>
 				</c:forEach>
@@ -48,7 +48,7 @@
 			</ul>
 
 			<div class="col-lg-12 ad-widget-wrap mt-30 mb-30">
-				<img class="img-fluid" src="/static/images/banner-ad.jpg" alt="">
+				<img class="img-fluid" src="/static/images/news/banner-ad.jpg" alt="">
 			</div>
 			<!-- End single-post Area -->
 		</div>

@@ -15,6 +15,7 @@
 
 					<th>Title</th>
 					<th>Description</th>
+					<th>Thumbnail</th>
 					<th>Content</th>
 					<th>CreateDate</th>
 					<th>Categories</th>
@@ -27,6 +28,7 @@
 
 						<td>${n.title} ${n.user.id}</td>
 						<td>${n.description}</td>
+						<td><img src="/static/images/news/${n.thumbnail}"  class="img-thumbnail"></td>
 						<td>${n.content}</td>
 						<td>${n.createDate}</td>
 						<td>${n.categories.name}</td>

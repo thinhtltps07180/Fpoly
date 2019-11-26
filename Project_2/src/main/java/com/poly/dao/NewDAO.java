@@ -17,6 +17,7 @@ public interface NewDAO {
 	List<New> findAllByCategoryIsPremierLeague();
 	List<New> findAllByCategoryIsBundesLiga();
 	List<New> findAllByCategoryIsSerieA();
+	List<New> findAllByCategoryIsLaliga();
 	List<New> findAllByCategoryIsVietnamesefootball();
 	New create(New entity);
 	void update(New entity);

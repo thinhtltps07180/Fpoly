@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.poly.dao.NewDAO;
 import com.poly.dao.OrderDetailDAO;
+import com.poly.entity.New;
 import com.poly.entity.OrderDetail;
 
 @Component
@@ -25,25 +27,45 @@ public class FilterInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	OrderDetailDAO dao;
 	
+	@Autowired
+	NewDAO newDAO;
 	
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		if (modelAndView != null) {
-			List<OrderDetail> list  = dao.findAllByA1();
-			Collections.shuffle( list);
-			modelAndView.addObject("listPut" , list.get(0));
+			List<OrderDetail> list  = dao.findAllByA1();			
+			if(list.size()>0) {
+				Collections.shuffle( list);
+				OrderDetail orderDetail = list.get(0);
+				orderDetail.setCountShow(orderDetail.getCountShow() - 1);
+				modelAndView.addObject("listPut" , orderDetail);
+				dao.update(orderDetail);
+			}
+			
+			New top1Viewer = newDAO.findByTop1NewsOrDerByCountViewer();
+			List<New> listTopNewsByCountViewer = newDAO.findByListNewsOrDerByCountViewer();
+			List<New> listTop2 = newDAO.findAllTop2();
+			New top1 = newDAO.findByTop1News();
+			modelAndView.addObject("listTop2", listTop2 );
+			modelAndView.addObject("top1" , top1);
+			
+			
+			
+			
+			modelAndView.addObject("top1Viewer" , top1Viewer);
+			modelAndView.addObject("listCountV" , listTopNewsByCountViewer);
 //			list.get(0).setCountShow(list.get(0).getCountShow() - 1);
-			OrderDetail orderDetail = dao.findById(list.get(0).getId());
-			orderDetail.setCountShow(orderDetail.getCountShow() - 1);
-			dao.update(orderDetail);
-			System.out.println("before ");
-			System.out.println("OrdetailID :" + list.get(0).getId());
-			System.out.println("CounShow :" + list.get(0).getCountShow());
-			System.out.println("after");
-			System.out.println("OrdetailID :" + orderDetail.getId());
-			System.out.println("CounShow :" + orderDetail.getCountShow());
+		
+			
+
+//			System.out.println("before ");
+//			System.out.println("OrdetailID :" + list.get(0).getId());
+//			System.out.println("CounShow :" + list.get(0).getCountShow());
+//			System.out.println("after");
+//			System.out.println("OrdetailID :" + orderDetail.getId());
+//			System.out.println("CounShow :" + orderDetail.getCountShow());
 		}
 		
 		

@@ -58,8 +58,8 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
 	
 	@Override
 	public List<OrderDetail> findAllByA1() {
-		String hql = "FROM OrderDetail where ProductId = 1 and countShow >= 1 ";
-		Session session = factory.getCurrentSession();
+		String hql = "from OrderDetail dt where dt.product.location = 1 and dt.product.countShow > 0 and dt.status = true ";
+		Session session = factory.getCurrentSession(); 
 		TypedQuery<OrderDetail> query = session.createQuery(hql, OrderDetail.class);
 		return query.getResultList();	
 	}
@@ -83,6 +83,14 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
 		TypedQuery<OrderDetail> query = session.createQuery(hql, OrderDetail.class);
 		query.setParameter("id", id);
 		return query.getResultList();	
+	}
+
+	@Override
+	public List<OrderDetail> findAllByStatus() {
+		String hql = "FROM OrderDetail dt where dt.status = false ";
+		Session session = factory.getCurrentSession();
+		TypedQuery<OrderDetail> query = session.createQuery(hql, OrderDetail.class);
+		return query.getResultList();
 	}
 
 	

@@ -3,9 +3,10 @@
 
 
 
-${message}
+
 
 <div class="container no-padding">
+	${message}
 	<div class="row">
 		<div class="col-lg-8 post-list">
 			<div class="card card-login mx-auto mt-5">

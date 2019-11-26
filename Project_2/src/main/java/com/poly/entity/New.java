@@ -9,14 +9,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="News")
 public class New {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Integer id;
+	@NotBlank(message = "Không được để trống Title")// phải là chuỗi String
 	String title;
+	@NotBlank(message = "Không được để trống Description")// phải là chuỗi String
 	String description;
+	
 	String content;
 	String thumbnail;	
 //	String CreateBy;	
@@ -27,6 +33,7 @@ public class New {
 	
 	@ManyToOne
 	@JoinColumn(name="categoryId")
+	@NotNull(message = "Không được để trống categories")// phải là chuỗi String
 	Category categories;
 	
 	@ManyToOne

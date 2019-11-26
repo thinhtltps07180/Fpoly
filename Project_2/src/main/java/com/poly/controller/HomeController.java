@@ -66,12 +66,7 @@ public class HomeController {
 		return "home/about";
 	}
 	
-	@GetMapping("/home/top1")
-	public String top1(Model model) {
-		
-		
-		return "home/top1";
-	}
+
 
 	@GetMapping("/home/contact")
 	public String contact(Model model) {
@@ -82,17 +77,13 @@ public class HomeController {
 //
 	@GetMapping("/home/index")
 	public String callIndex(Model model) {
-		New top1 = newDAO.findByTop1News();
-		List<New> listTop2 = newDAO.findAllTop2();
-		List<New> listTopNewsByCountViewer = newDAO.findByListNewsOrDerByCountViewer();
-		New top1Viewer = newDAO.findByTop1NewsOrDerByCountViewer();
+	
+
 		int pageNo = 0;
 		List<New> list = newDAO.findPage(pageNo);
 		model.addAttribute("listPage", list );
-		model.addAttribute("listTop2", listTop2 );
-		model.addAttribute("top1" , top1);
-		model.addAttribute("top1Viewer" , top1Viewer);
-		model.addAttribute("listCountV" , listTopNewsByCountViewer);
+
+
 		
 		
 		return "home/index";
@@ -130,6 +121,14 @@ public class HomeController {
 		return "home/CategoryIsSerieA";
 	}
 	
+	@GetMapping("/home/CategoryIsLaliga")
+	public String findAllByCategoryIsLaliga(Model model) {
+		List<New> list = newDAO.findAllByCategoryIsLaliga();
+		model.addAttribute("listLLG", list );
+		
+		return "home/CategoryIsLaliga";
+	}
+	
 	@GetMapping("/home/CategoryIsVietnamesefootball")
 	public String findAllByCategoryIsVietnamesefootball(Model model) {
 		List<New> list = newDAO.findAllByCategoryIsVietnamesefootball();
@@ -147,7 +146,7 @@ public class HomeController {
 	@RequestMapping("/home/logout")
 	public String logout() {
 		session.removeAttribute("user");
-		return "home/index";
+		return "redirect:/home/index";
 	}
 
 	@PostMapping("/home/login")
@@ -155,16 +154,12 @@ public class HomeController {
 		User user = dao.findById(id);
 		if (user == null) {
 			model.addAttribute("message", "Invalid username!");
+			
 		} else if (!pw.equals(user.getPassword())) {
 			model.addAttribute("message", "Invalid password!");
 		} else {
 			session.setAttribute("user", user);
-//			session.setAttribute("role", user.getRoles().getName());
-			
-//			String url = (String) session.getAttribute("back-url");
-//			if(url != null) {
-//				return "redirect:"+url;
-//			}
+
 			if (user.getRoles().getName().equals("admin")) {
 				return "redirect:/admin/userList";
 			} else if (user.getRoles().getName().equals("user")) {
@@ -176,7 +171,7 @@ public class HomeController {
 			}
 			model.addAttribute("message", "Login successfully!");
 		}
-		return "home/index";
+		return "home/login";
 	}
 
 	@RequestMapping("/client/put")
@@ -204,7 +199,67 @@ public class HomeController {
 	public String register(Model model, @Validated @ModelAttribute("form") User user, BindingResult errors,
 			@RequestParam("up_photo") MultipartFile file) {
 		if (file.isEmpty()) {
-			user.setPhoto("user.png");
+			user.setPhoto(user.getPhoto());
+		} else {
+			user.setPhoto(file.getOriginalFilename());
+			try {
+				String path = app.getRealPath("/static/images/users/" + user.getPhoto());
+				file.transferTo(new File(path));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		if (errors.hasErrors()) {
+			model.addAttribute("message", "Vui lòng sửa các lỗi sau đây");
+			return "home/register";
+		} else {
+			try {
+
+				Role role = new Role();
+//				role.setId(user.getRoles().getId());
+//				user.setRoles(role);
+				role.setId(2);
+				user.setRoles(role);
+				dao.create(user);
+				model.addAttribute("message", "Đăng ký thành công!");
+			} catch (Exception e) {
+				model.addAttribute("message", "Đăng ký thất bại!");
+				return "redirect:/home/register";
+				
+			}
+		}
+
+//		model.addAttribute("form" , user);
+		return "home/login";
+	}
+
+	@GetMapping("/home/edit")
+	public String edit(Model model) {
+		User user = (User) session.getAttribute("user");
+		user = dao.findById(user.getId());
+		List<Role> list = roleDAO.findAll();
+		model.addAttribute("listRole", list);
+		model.addAttribute("userEdit", user);
+		return "home/profile";
+	}
+	
+	@GetMapping("/home/edit/{id}")
+	public String editUser(Model model) {
+		User user = (User) session.getAttribute("user");
+		user = dao.findById(user.getId());
+		List<Role> list = roleDAO.findAll();
+		model.addAttribute("listRole", list);
+		model.addAttribute("userEdit", user);
+		return "home/edit";
+	}
+
+	
+	@PostMapping("/home/update")
+	public String update(Model model, @Valid @ModelAttribute("userEdit") User user, BindingResult errors,
+			@RequestParam("up_photo") MultipartFile file) {
+		if (file.isEmpty()) {
+			user.setPhoto(user.getPhoto());
 		} else {
 			user.setPhoto(file.getOriginalFilename());
 			try {
@@ -221,65 +276,18 @@ public class HomeController {
 			try {
 
 				Role role = new Role();
-//				role.setId(user.getRoles().getId());
-//				user.setRoles(role);
 				role.setId(2);
 				user.setRoles(role);
-				dao.create(user);
-				model.addAttribute("message", "Đăng ký thành công!");
+				dao.update(user);
+				model.addAttribute("message", "Update thành công!");
 			} catch (Exception e) {
-				model.addAttribute("message", "Đăng ký thất bại!");
+				model.addAttribute("message", "Update thất bại!");
 			}
 		}
 
-//		model.addAttribute("form" , user);
-		return "home/register";
-	}
-
-	@GetMapping("/home/edit")
-	public String edit(Model model) {
-		User user = (User) session.getAttribute("user");
-		user = dao.findById(user.getId());
-		List<Role> list = roleDAO.findAll();
-		model.addAttribute("listRole", list);
-		model.addAttribute("userEdit", user);
+		model.addAttribute("userEdit" , user);
 		return "home/edit";
 	}
-//
-//	
-//	@PostMapping("/admin/update")
-//	public String update(Model model, @Valid @ModelAttribute("userEdit") User user, BindingResult errors,
-//			@RequestParam("up_photo") MultipartFile file) {
-//		if (file.isEmpty()) {
-//			user.setPhoto("user.png");
-//		} else {
-//			user.setPhoto(file.getOriginalFilename());
-//			try {
-//				String path = app.getRealPath("/static/images/users/" + user.getPhoto());
-//				file.transferTo(new File(path));
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//
-//		}
-//		if (errors.hasErrors()) {
-//			model.addAttribute("message", "Vui lòng sửa các lỗi sau đây");
-//		} else {
-//			try {
-//
-//				Role role = new Role();
-//				role.setId(user.getRoles().getId());
-//				user.setRoles(role);
-//				dao.update(user);
-//				model.addAttribute("message", "Update thành công!");
-//			} catch (Exception e) {
-//				model.addAttribute("message", "Update thất bại!");
-//			}
-//		}
-//
-//		model.addAttribute("userEdit" , user);
-//		return "admin/edit";
-//	}
-//	
+	
 
 }

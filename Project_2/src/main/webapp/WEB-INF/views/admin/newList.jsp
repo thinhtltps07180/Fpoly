@@ -53,7 +53,7 @@
                     <td>${c.title}</td>
                     <td>${c.user.id}</td>
                     <td>${c.createDate}</td>
-                    <td><a  href="/admin/checkNews/${c.id}" id = "href"><button style="font-size:24px ;color:red"> <i class="fa fa-check"></i></button></a></td>
+                    <td><a class="check-list"  href="/admin/checkNews/${c.id}" id = "href"><button style="font-size:24px ;color:red"> <i class="fa fa-check"></i></button></a></td>
                     <td>${c.categories.name}</td>
 					
   
@@ -113,9 +113,11 @@
     </div>
   </div>
   
-  <script>
+<!--   <script>
   
-$( "a" ).click(function( event ) {
+$( "a.check-list" ).click(function( event ) {
+	var href = $("#href").attr("href");
+	console.log(href)
   event.preventDefault();
   Swal.fire({
 	  title: 'Are you sure?',
@@ -133,7 +135,7 @@ $( "a" ).click(function( event ) {
 	      'success'    
 	    ).then(function() {
 	    	
-	    	var href = $("#href").attr("href");
+
 	    	window.location.href = href 
 		})
 	   
@@ -142,6 +144,6 @@ $( "a" ).click(function( event ) {
 	})
 	
 	return false;	
-});
+}); -->
 
 </script>

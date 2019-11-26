@@ -17,12 +17,13 @@ public class ClientService {
 	ProductDAO dao;
 
 	List<Product> items = new ArrayList<>();
-
+	
 	public void add(Integer id) {
 		for (Product item : items) {
 			if (item.getId().intValue() == id.intValue()) {
 				item.setQuantity(item.getQuantity() + 1);
-				item.setCountShow(item.getCountShow() + 5);
+				item.setCountShow(item.getCountShow() + 100);
+				
 				return;
 			}
 		}
@@ -44,6 +45,7 @@ public class ClientService {
 		for (Product item : items) {
 			if (item.getId().intValue() == id.intValue()) {
 				item.setQuantity(qty);
+				item.setCountShow(100*qty);
 				return;
 			}
 		}

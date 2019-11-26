@@ -17,13 +17,13 @@ public class ReportDAOImpl implements ReportDAO {
 
 	@Override
 	public List<Object[]> revenueByProduct() {
-		String hql = "SELECT d.product.name,"
+		String hql = "SELECT d.product.location.name,"
 				+ "SUM(d.quantity),"
 				+ "SUM(d.quantity * d.unitPrice),"
 				+ "MIN(d.unitPrice),"
 				+ "MAX(d.unitPrice)"
 				+ "FROM OrderDetail d "
-				+ "GROUP BY d.product.name";
+				+ "GROUP BY d.product.location.name";
 		Session session = factory.getCurrentSession();
 		TypedQuery<Object[]> query = session.createQuery(hql,Object[].class);
 		List<Object[]> list = query.getResultList();

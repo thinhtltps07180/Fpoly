@@ -2,13 +2,27 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
+<script type="text/javascript" src="/static/ckeditor/ckeditor.js"></script>
+
 <style>
+.form-group.area {
+    width: 908px;
+}
+
 body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
 * {
 	box-sizing: border-box;
+}
+
+span[id*=errors] {
+	color: red;
+	font-style: italic;
+	background-image: url("/static/images/anifire.gif");
+	background-repeat: no-repeat;
+	padding-left: 25px;
 }
 
 input#fname {
@@ -50,7 +64,7 @@ input[type=submit]:hover {
 		var reader = new FileReader();
 		reader.onload = function() {
 			console.log(reader.result);
-			var img = new Image();
+			var img = new Image(300,200);
 			img.onload = function() {
 				document.getElementById("anh").appendChild(img);
 			}
@@ -68,40 +82,51 @@ input[type=submit]:hover {
 	<h3>Edit Form</h3>
 	<h1>${message}</h1>
 	<form:form modelAttribute="form" enctype="multipart/form-data"
-		action="/journalist/addNewPost">
+		action="/journalist/update">
 
-		<label for="fname">Id</label>
-		<form:input path="id" type="text" id="fname" name="id"
+
+		<form:input path="id" type="hidden" id="fname" name="id"
 			placeholder="Your id.." />
 		<form:errors path="id" />
 
-		<label for="fname">Title</label>
-		<form:input path="title" type="text" id="fname" name="firstname"
-			placeholder="Your name.." />
-		<form:errors path="title" />
 
-		<label for="fname">Description</label>
-		<form:input path="description" type="text" id="fname"
-			name="description" placeholder="description.." />
-		<form:errors path="description" />
+		<form:input type="hidden" path="createDate" id="fname" />
 
 
-		<label for="fname">Thumbnail</label>
-		<input type="file" class="form-input" name="up_photo"
-			onchange="openFile(this)" class="form-control" placeholder="Photo">
-		<form:hidden path="thumbnail" />
-		<div id="anh"></div>
+		<form:input type="hidden" path="status" id="fname" />
 
 
-		<label for="country">Categories</label>
-		<form:select path="categories.id">
-			<form:options items="${list}" itemValue="id" itemLabel="name" />
-		</form:select>
-		<form:errors path="categories.id" />
-
-		<label for="fname">Content</label>
-		<form:textarea path="content" style="width: 100%; height: 200px;" />
-
+		<form:input type="hidden" path="countViewer" id="fname" />
+		<div class="form-group">
+			<label for="fname">Title</label>
+			<form:input path="title" type="text" id="fname" name="firstname" />
+			<form:errors path="title" />
+		</div>
+		<div class="form-group">
+			<label for="fname">Description</label>
+			<form:input path="description" type="text" id="fname"
+				name="description" placeholder="description.." />
+			<form:errors path="description" />
+		</div>
+		<div class="form-group">
+			<label for="fname">Thumbnail</label> <input type="file"
+				class="form-input" name="up_photo" onchange="openFile(this)"
+				class="form-control" placeholder="Photo">
+			<form:hidden path="thumbnail" />
+			<div id="anh"></div>
+		</div>
+		<div class="form-group">
+			<label for="country">Categories</label>
+			<form:select path="categories.id">
+				<form:options items="${list}" itemValue="id" itemLabel="name" />
+			</form:select>
+			<form:errors path="categories.id" />
+		</div>
+		<div class="form-group">
+			<label for="fname">Content</label>
+			<form:textarea path="content" style= " height: 200px;" id="content" />
+			<form:errors path="content" />
+		</div>
 
 
 		<div>
@@ -113,7 +138,14 @@ input[type=submit]:hover {
 
 </div>
 
-<script type="text/javascript"
+	<script type="text/javascript">
+	var editor = '';
+	$( document ).ready(function() {
+		editor = CKEDITOR.replace('content');
+	});
+</script>
+
+<!-- <script type="text/javascript"
 	src="http://js.nicedit.com/nicEdit-latest.js"></script>
 <script type="text/javascript">
 	//<![CDATA[
@@ -121,4 +153,4 @@ input[type=submit]:hover {
 		nicEditors.allTextAreas()
 	});
 	//]]>
-</script>
+</script> -->

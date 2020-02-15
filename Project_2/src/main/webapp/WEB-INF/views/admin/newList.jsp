@@ -32,8 +32,8 @@
                     <th>Title</th>
                     <th>CreateBy</th>
                     <th>CreateDate</th>
-                    <th>Status</th>
                     <th>Categories</th> 
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -41,20 +41,21 @@
                      <th>Title</th>
                     <th>CreateBy</th>
                     <th>CreateDate</th>
-                    <th>Status</th>
                     <th>Categories</th>
+                    <th>Status</th>
                   </tr>
                 </tfoot>
-                <tbody>
-                 <c:forEach var="c" items="${list}">
+                <tbody>	
+                 <c:forEach var="c" items="${list}" varStatus="loopCounter" >
                   <tr>
                  
 		 			
                     <td>${c.title}</td>
                     <td>${c.user.id}</td>
                     <td>${c.createDate}</td>
-                    <td><a class="check-list"  href="/admin/checkNews/${c.id}" id = "href"><button style="font-size:24px ;color:red"> <i class="fa fa-check"></i></button></a></td>
-                    <td>${c.categories.name}</td>
+                      <td>${c.categories.name}</td>
+                    <td><a class="check-list"  href="/admin/checkNews/${loopCounter.count}/${c.id}" id="${loopCounter.count}"><button style="font-size:24px ;color:red"> <i class="fa fa-check"></i></button></a></td>
+                  
 					
   
                   </tr>
@@ -113,11 +114,11 @@
     </div>
   </div>
   
-<!--   <script>
+  <script>
   
 $( "a.check-list" ).click(function( event ) {
-	var href = $("#href").attr("href");
-	console.log(href)
+	 var myId = $(this).attr('id');
+	
   event.preventDefault();
   Swal.fire({
 	  title: 'Are you sure?',
@@ -134,9 +135,11 @@ $( "a.check-list" ).click(function( event ) {
 	      'Your file has been changed.',
 	      'success'    
 	    ).then(function() {
-	    	
-
-	    	window.location.href = href 
+			let getId = myId;
+	/* 		alert(getId); */
+			var href = $("#"+getId).attr("href")
+		/* 	alert(href) */
+	    	window.location.href = href  
 		})
 	   
 	  }
@@ -144,6 +147,6 @@ $( "a.check-list" ).click(function( event ) {
 	})
 	
 	return false;	
-}); -->
+});
 
 </script>

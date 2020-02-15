@@ -58,7 +58,7 @@ public class AdminController {
 		return "admin/orderList";
 	}
 	
-	@RequestMapping("/admin/checkNews/{id}")
+	@RequestMapping("/admin/checkNews/{value}/{id}")
 	public String checkNew(Model model , @PathVariable("id") Integer id) {
 		New n = newDAO.findById(id);
 		n.setStatus(true);

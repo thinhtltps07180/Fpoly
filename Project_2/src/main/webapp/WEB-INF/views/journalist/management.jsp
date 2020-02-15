@@ -1,6 +1,11 @@
 <%@ page pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<!DOCTYPE html>
+<style>
+img#tn {
+    height: 113px;
+    width: 131px;
+}
+</style>
 <link href="/static/journalist/css/table.css" rel="stylesheet">
 <div class="container">
 	<!-- CONTENT -->
@@ -23,12 +28,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="n" items="${list}">
+				<c:forEach var="n" items="${listNewsO}">
 					<tr class="gradeC">
 
-						<td>${n.title} ${n.user.id}</td>
+						<td>${n.title}</td>
 						<td>${n.description}</td>
-						<td><img src="/static/images/news/${n.thumbnail}"  class="img-thumbnail"></td>
+						<td><img id="tn" src="/static/images/news/${n.thumbnail}"></td>
 						<td>${n.content}</td>
 						<td>${n.createDate}</td>
 						<td>${n.categories.name}</td>

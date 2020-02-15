@@ -9,23 +9,28 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 @Entity
 @Table(name="News")
 public class New {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Integer id;
-	@NotBlank(message = "Không được để trống Title")// phải là chuỗi String
+	@NotBlank(message = "Không được để trống title")// phải là chuỗi String
+	@Length(min=6 , message = "title name phải có ít nhất 6 ký tự")
 	String title;
-	@NotBlank(message = "Không được để trống Description")// phải là chuỗi String
+	@NotBlank(message = "Không được để trống description")// phải là chuỗi String
+	@Length(min=6 , message = "description name phải có ít nhất 6 ký tự")
 	String description;
-	
+	@NotBlank(message = "Không được để trống content")
 	String content;
 	String thumbnail;	
 //	String CreateBy;	
+	@Temporal(TemporalType.DATE)
 	Date createDate;
 	Boolean status;
 //	Integer CategoryId;
@@ -33,7 +38,6 @@ public class New {
 	
 	@ManyToOne
 	@JoinColumn(name="categoryId")
-	@NotNull(message = "Không được để trống categories")// phải là chuỗi String
 	Category categories;
 	
 	@ManyToOne
@@ -42,6 +46,14 @@ public class New {
 
 	public Integer getId() {
 		return id;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public void setId(Integer id) {
@@ -74,13 +86,6 @@ public class New {
 		this.thumbnail = thumbnail;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
 
 	public Boolean getStatus() {
 		return status;

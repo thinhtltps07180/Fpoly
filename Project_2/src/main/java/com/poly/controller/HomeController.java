@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,6 +43,14 @@ public class HomeController {
 
 	@Autowired
 	RoleDAO roleDAO;
+	
+	@GetMapping("/home/index")
+	public String callIndex(Model model) {
+		int pageNo = 0;
+		List<New> list = newDAO.findPage(pageNo);
+		model.addAttribute("listPage", list );
+		return "home/index";
+	}
 
 	@RequestMapping({ "/home/index/{pageNo}" })
 	public String index(Model model , @PathVariable( name ="pageNo") int pageNo) {
@@ -75,19 +82,7 @@ public class HomeController {
 		return "home/contact";
 	}
 //
-	@GetMapping("/home/index")
-	public String callIndex(Model model) {
-	
 
-		int pageNo = 0;
-		List<New> list = newDAO.findPage(pageNo);
-		model.addAttribute("listPage", list );
-
-
-		
-		
-		return "home/index";
-	}
 	
 	@GetMapping("/home/CategoryIsUEFAChampionsLeague")
 	public String findAllByCategoryIsUEFAChampionsLeague(Model model) {
@@ -286,7 +281,7 @@ public class HomeController {
 		}
 
 		model.addAttribute("userEdit" , user);
-		return "home/edit";
+		return "home/profile";
 	}
 	
 

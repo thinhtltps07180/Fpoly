@@ -21,7 +21,7 @@ img#us {
 					<dtitle>User Profile</dtitle>
 					<hr>
 					<div class="thumbnail">
-						<img id="us" src="/static/images/users/${user.photo}" alt="Marcel Newman" class="img-circle">
+						<img id="us" src="/static/images/users/${user.photo}"  class="img-circle">
 					</div><!-- /thumbnail -->
 					<h1>${user.id}</h1>
 					<h3>${user.email}</h3>

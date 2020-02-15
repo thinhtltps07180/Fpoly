@@ -1,9 +1,15 @@
 <%@ page pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+	<script type="text/javascript" src="/static/ckeditor/ckeditor.js"></script>
 
 
 <style>
+.form-group.area {
+    width: 908px;
+}
+
 span[id*=errors] {
 	color: red;
 	font-style: italic;
@@ -75,7 +81,7 @@ input[type=submit]:hover {
 
 	<div class="container">
 		<form:form enctype="multipart/form-data" action="/journalist/addNewPost"
-			modelAttribute="add">
+			modelAttribute="add" name="myform">
 			<h2 class="form-title">Create New Post</h2>
 			<div class="form-group">
 				<label for="fname">Title</label>
@@ -95,17 +101,17 @@ input[type=submit]:hover {
 				<form:hidden path="thumbnail" />
 				<div id="anh"></div>
 			</div>
-			<div class="form-group">
-			
-				<form:select path="categories.id">
-				
-				<form:options items="${list}" itemValue="id" itemLabel="name" />
+			<div class="form-group">	
+				<form:select path="categories.id"  >
+				<form:option value=""  label="--Please Select" ></form:option>
+				<!-- <option selected="selected" value="">--Please Select</option> -->
+				<form:options items="${list}" itemValue="id" itemLabel="name"  />
 				</form:select>
+				
 				<form:errors path="categories.id" />
-
 			</div>
 			<div class="form-group area">
-				<form:textarea path="content" style= " height: 200px;" />
+				<form:textarea path="content" style= " height: 200px;" id="content" />
 				<form:errors path="content" />
 			</div>
 			<div class="form-group">
@@ -119,11 +125,18 @@ input[type=submit]:hover {
 	</div>
 
 	</div>
+	
+	<script type="text/javascript">
+	var editor = '';
+	$( document ).ready(function() {
+		editor = CKEDITOR.replace('content');
+	});
+</script>
 
 
 
 
-	<script type="text/javascript"
+<!-- 	<script type="text/javascript"
 		src="http://js.nicedit.com/nicEdit-latest.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
@@ -131,4 +144,4 @@ input[type=submit]:hover {
 			nicEditors.allTextAreas()
 		});
 		//]]>
-	</script>
+	</script> -->

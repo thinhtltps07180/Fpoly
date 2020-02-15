@@ -46,7 +46,7 @@
 	<div class="row">
 		<div class="col-lg-8 post-list">
 		<div class="jumbotron">
-                  <div class="row"></div>
+                  
                   
                       <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
                         <img id="anh-cu" alt="" src="/static/images/users/${userEdit.photo }">
@@ -63,7 +63,7 @@
                           </ul>
                       </div>
                   </div>
-			</div>
+			
 			
 				
 		

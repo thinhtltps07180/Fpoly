@@ -54,7 +54,7 @@
 							</tr>
 						</tfoot>
 						<tbody>
-							<c:forEach var="ldt" items="${listODT}">
+							<c:forEach var="ldt" items="${listODT}" varStatus="loopCounter">
 								<tr>
 
 									<td>${ldt.product.location.name}</td>
@@ -63,9 +63,10 @@
 									<td>${ldt.unitPrice}</td>
 									<td>${ldt.order.orderDate}</td>
 									<td>${ldt.countShow}</td>
-									
-									<td><a class="check-list"
-										href="/admin/checkOrders/${ldt.id}" id="href"><button
+
+									<td>
+									<a class="check-list"
+										href="/admin/checkOrders/${ldt.id}" id="${loopCounter.count}"><button
 												style="font-size: 24px; color: red">
 												<i class="fa fa-check"></i>
 											</button></a></td>
@@ -132,11 +133,10 @@
 	</div>
 </div>
 
-<!--   <script>
+<script>
   
 $( "a.check-list" ).click(function( event ) {
-	var href = $("#href").attr("href");
-	console.log(href)
+	 var myId = $(this).attr('id');
   event.preventDefault();
   Swal.fire({
 	  title: 'Are you sure?',
@@ -153,9 +153,9 @@ $( "a.check-list" ).click(function( event ) {
 	      'Your file has been changed.',
 	      'success'    
 	    ).then(function() {
-	    	
-
-	    	window.location.href = href 
+	    	let getId = myId;
+	    	var href = $("#"+getId).attr("href")
+	    	window.location.href = href  
 		})
 	   
 	  }
@@ -163,6 +163,6 @@ $( "a.check-list" ).click(function( event ) {
 	})
 	
 	return false;	
-}); -->
+});
 
 </script>

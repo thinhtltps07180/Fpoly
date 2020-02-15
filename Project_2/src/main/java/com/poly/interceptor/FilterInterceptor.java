@@ -1,7 +1,5 @@
 package com.poly.interceptor;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.poly.dao.CategoryDAO;
 import com.poly.dao.NewDAO;
 import com.poly.dao.OrderDetailDAO;
 import com.poly.entity.New;
@@ -30,17 +29,39 @@ public class FilterInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	NewDAO newDAO;
 	
+	@Autowired
+	CategoryDAO categoryDAO;
+	
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		if (modelAndView != null) {
-			List<OrderDetail> list  = dao.findAllByA1();			
+			List<OrderDetail> list  = dao.findAllByA1();
+			List<OrderDetail> listA2  = dao.findAllByA2();
+			List<OrderDetail> listA3  = dao.findAllByA3();
+			
 			if(list.size()>0) {
 				Collections.shuffle( list);
 				OrderDetail orderDetail = list.get(0);
 				orderDetail.setCountShow(orderDetail.getCountShow() - 1);
 				modelAndView.addObject("listPut" , orderDetail);
+				dao.update(orderDetail);
+			}
+			
+			if(listA2.size()>0) {
+				Collections.shuffle( listA2);
+				OrderDetail orderDetail = listA2.get(0);
+				orderDetail.setCountShow(orderDetail.getCountShow() - 1);
+				modelAndView.addObject("listPuta2" , orderDetail);
+				dao.update(orderDetail);
+			}
+			
+			if(listA3.size()>0) {
+				Collections.shuffle( listA3);
+				OrderDetail orderDetail = listA3.get(0);
+				orderDetail.setCountShow(orderDetail.getCountShow() - 1);
+				modelAndView.addObject("listPuta3" , orderDetail);
 				dao.update(orderDetail);
 			}
 			

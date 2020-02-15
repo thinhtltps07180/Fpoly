@@ -25,7 +25,7 @@
 							</ul>
 						</div>
 						<div class="col-lg-7 post-right">
-							<a href="image-post.html">
+							<a href="/home/click/${n.id}">
 								<h4>${n.title}</h4>
 							</a>
 							<ul class="meta">

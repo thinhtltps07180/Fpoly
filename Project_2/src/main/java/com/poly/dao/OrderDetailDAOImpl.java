@@ -66,14 +66,18 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
 
 	@Override
 	public List<OrderDetail> findAllByA2() {
-		// TODO Auto-generated method stub
-		return null;
+		String hql = "from OrderDetail dt where dt.product.location = 2 and dt.product.countShow > 0 and dt.status = true ";
+		Session session = factory.getCurrentSession(); 
+		TypedQuery<OrderDetail> query = session.createQuery(hql, OrderDetail.class);
+		return query.getResultList();	
 	}
 
 	@Override
 	public List<OrderDetail> findAllByA3() {
-		// TODO Auto-generated method stub
-		return null;
+		String hql = "from OrderDetail dt where dt.product.location = 3 and dt.product.countShow > 0 and dt.status = true ";
+		Session session = factory.getCurrentSession(); 
+		TypedQuery<OrderDetail> query = session.createQuery(hql, OrderDetail.class);
+		return query.getResultList();	
 	}
 
 	@Override

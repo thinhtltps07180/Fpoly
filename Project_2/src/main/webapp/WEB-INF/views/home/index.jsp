@@ -4,7 +4,15 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
+<style>
+img#bannera3 {
+    height: 90px;
+    width: 728px;
+}
+img#top2 {
+    height: 192px;
+}
+</style>
 <div class="container no-padding">
 	<div class="row">
 		<div class="col-lg-8 post-list">
@@ -15,13 +23,13 @@
 				<div class="feature-post relative">
 					<div class="feature-img relative">
 						<div class="overlay overlay-bg"></div>
-						<img class="img-fluid" src="/static/images/news/${top1.thumbnail}" alt="">
+						<a href="/home/click/${top1.id}"><img class="img-fluid" src="/static/images/news/${top1.thumbnail}" alt=""></a>
 					</div>
 					<div class="details">
 						<ul class="tags">
 							<li><a href="#">${top1.categories.name}</a></li>
 						</ul>
-						<a href="image-post.html">
+						<a href="/home/click/${top1.id}">
 							<h3>${top1.title}</h3>
 						</a>
 						<ul class="meta">
@@ -38,14 +46,14 @@
 						<div class="feature-img-wrap relative">
 							<div class="feature-img relative">
 								<div class="overlay overlay-bg"></div>
-								<img class="img-fluid" src="/static/images/news/${n.thumbnail}" alt="">
+								<a href="/home/click/${n.id}"><img id ="top2" class="img-fluid" src="/static/images/news/${n.thumbnail}" alt=""></a>
 							</div>
 							<ul class="tags">
 								<li><a href="#">${n.categories.name}</a></li>
 							</ul>
 						</div>
 						<div class="details">
-							<a href="image-post.html">
+							<a  href="/home/click/${n.id}">
 								<h4>${n.title}</h4>
 							</a>
 							<ul class="meta">
@@ -61,12 +69,28 @@
 				</div>
 				
 			</div>
-			<!-- End popular-post Area -->
-			<div class="col-lg-12 ad-widget-wrap mt-30 mb-30">
-				<img class="img-fluid" src="/static/images/news/news/a1-ad.jpg" alt="">
-			</div>
-			<div class="latest-post-wrap">
+			<div  class="a3">
+			<c:set var="img" value="${listPuta3.image}" />
+			<c:choose>
 
+				<c:when test="${img != null}">
+					<c:set var="img" value="${listPuta3.image}" />
+				</c:when>
+
+				<c:when test="${img == null}">
+					<c:set var="img" value="a1.jpg" />
+				</c:when>
+
+				<c:otherwise>
+			            No comment sir...
+			         </c:otherwise>
+			</c:choose>
+			<img class="img-fluid" id="bannera3"
+				src="/static/images/banner/<c:out value = "${img}"/>"> <img>
+		</div>
+			<!-- End popular-post Area -->
+		
+			<div class="latest-post-wrap">
 				<h4 class="cat-title">Latest News</h4>
 				<c:forEach var="c" items="${listPage}">
 					<div class="single-latest-post row align-items-center">
@@ -81,7 +105,7 @@
 							</ul>
 						</div>
 						<div class="col-lg-7 post-right">
-							<a href="image-post.html">
+							<a href="/home/click/${c.id}	">
 								<h4>${c.title }</h4>
 							</a>
 							<ul class="meta">
@@ -100,7 +124,7 @@
 				<li><a href="/home/index/0">First</a></li>
 				<li><a href="/home/index/${pageNo -1}">Previous</a></li>
 				<li><a href="/home/index/${pageNo +1}">Next</a></li>
-				<li><a href="/home/index/${lastPageNo}">Last</a></li>
+				<li><a href="/home/index/${lastPageCount}">Last</a></li>
 			</ul>
 
 			<div class="col-lg-12 ad-widget-wrap mt-30 mb-30">

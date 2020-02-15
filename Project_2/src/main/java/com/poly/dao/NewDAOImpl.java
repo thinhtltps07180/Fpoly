@@ -34,8 +34,7 @@ public class NewDAOImpl implements NewDAO {
 	@Override
 	public List<New> findAllByUserId() {
 		User user = (User) session.getAttribute("user");
-
-		String hql = "FROM New n WHERE n.user.id =:id ";
+		String hql = "FROM New n WHERE n.user.id =:id  ";
 		Session session = factory.getCurrentSession();
 		TypedQuery<New> query = session.createQuery(hql, New.class);
 		query.setParameter("id", user.getId());

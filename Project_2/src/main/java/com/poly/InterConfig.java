@@ -11,14 +11,11 @@ import com.poly.interceptor.AuthorizeInterceptor;
 public class InterConfig implements WebMvcConfigurer {
 	@Autowired
 	AuthorizeInterceptor auth;
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(auth)
-			.addPathPatterns("/admin/**", "/journalist/**" , "/client/**");
-		
-//		registry.addInterceptor(auth)
-//			.addPathPatterns("/admin/**")
-//			.excludePathPatterns("/admin/master/login");
+		registry.addInterceptor(auth).addPathPatterns("/admin/**", "/journalist/**", "/client/**");
+
+		registry.addInterceptor(auth).addPathPatterns("/admin/**").excludePathPatterns("/admin/master/login");
 	}
 }

@@ -7,13 +7,16 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,7 +57,7 @@ public class JournalistController {
 	@RequestMapping("/journalist/management")
 	public String management(Model model) {
 		List<New> list = dao.findAllByUserId();
-		model.addAttribute("list", list);
+		model.addAttribute("listNewsO", list);
 		return "journalist/management";
 	}
 
@@ -70,7 +73,7 @@ public class JournalistController {
 	}
 
 	@PostMapping("/journalist/addNewPost")
-	public String register(Model model,@Validated @ModelAttribute("add") New news,  BindingResult errors ,
+	public String register(Model model,@Valid @ModelAttribute("add") New news,  BindingResult errors ,
 			@RequestParam("up_photo") MultipartFile file) {
 		if (file.isEmpty()) {
 			news.setThumbnail("news.png");
@@ -103,16 +106,17 @@ public class JournalistController {
 				news.setCreateDate(date);
 				news.setCountViewer(0);
 				dao.create(news);
-				model.addAttribute("message", "Đăng ký thành công!");
+				model.addAttribute("message", "Tạo bài viết thành công!");
 			} catch (Exception e) {
-				model.addAttribute("message", "Đăng ký thất bại!");
+				model.addAttribute("message", "Tạo bài viết  thất bại!");
+				
 			}
 		}
 		
 
 		// model.addAttribute("form" , user);
 
-		return "journalist/addNewPost";
+		return "redirect:/journalist/management";
 	}
 
 	@GetMapping("/journalist/edit/{id}")
@@ -125,7 +129,7 @@ public class JournalistController {
 	}
 	
 	@PostMapping("/journalist/update")
-	public String update(Model model, @ModelAttribute("form") New news, @RequestParam("up_photo") MultipartFile file) {
+	public String update(Model model,@Valid @ModelAttribute("form") New news,BindingResult errors, @RequestParam("up_photo") MultipartFile file) {
 		if (file.isEmpty()) {
 			news.setThumbnail(news.getThumbnail());
 		} else {
@@ -137,21 +141,23 @@ public class JournalistController {
 				e.printStackTrace();
 			}
 		}
+		if (errors.hasErrors()) {
+			model.addAttribute("message", "Vui lòng sửa các lỗi sau đây");
+			List<Category> list = categoryDAO.findAll();
+			model.addAttribute("list", list);
+			return "journalist/edit";	
+		}else {
 		try {
-//					Role role = new Role();
-//					role.setId(1);
-//					user.setRoles(role);
+
 			User user = (User) session.getAttribute("user");
 			news.setUser(user);
 			Category category = new Category();
 			category.setId(news.getCategories().getId());
 			news.setCategories(category);
-			news.setStatus(false);
-			Date date = new Date();
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-			formatter.format(date);
+			news.setStatus(news.getStatus());
+			Date date = news.getCreateDate();
 			news.setCreateDate(date);
-			news.setCountViewer(0);
+			news.setCountViewer(news.getCountViewer());
 			dao.update(news);
 			model.addAttribute("message", "Đăng ký thành công!");
 		} catch (Exception e) {
@@ -162,11 +168,19 @@ public class JournalistController {
 
 		return "redirect:/journalist/management";
 	}
+	}
 	
 	@PostMapping("/journalist/delete")
 	public String update(Model model, @RequestParam("id") Integer id) {	
 		dao.delete(id);
 		return "redirect:/journalist/management";
 	}
+	
+	 @InitBinder
+	    public void initBinder(WebDataBinder binder) {
+	        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+	        sdf.setLenient(true);
+	        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+	    }
 
 }
